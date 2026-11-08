@@ -1,7 +1,9 @@
 # NewsReader Starter App
 
-## Demo Login
+## Vercel Link
+<https://assignment-9-application-developmen.vercel.app/>
 
+## Demo Login
 Enter any non-empty username and password, then choose Regular User or Admin.
 This is mock authentication for demonstration; it does not verify credentials
 against a backend.
