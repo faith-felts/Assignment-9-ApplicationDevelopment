@@ -1,7 +1,10 @@
 import { useArticles } from '../context/ArticlesContext';
+import { useAuth } from '../context/AuthContext';
 
 function ArticleCard({ article }) {
   const { saveArticle, removeArticle, isArticleSaved } = useArticles();
+  const { isAuthenticated } = useAuth();
+  const authenticated = isAuthenticated();
   const saved = isArticleSaved(article.url);
 
   const handleBookmarkClick = () => {
@@ -21,9 +24,16 @@ function ArticleCard({ article }) {
           </a>
         </h3>
         <button
+          type="button"
           onClick={handleBookmarkClick}
           className={`bookmark-btn ${saved ? 'saved' : ''}`}
-          aria-label={saved ? 'Remove bookmark' : 'Add bookmark'}
+          disabled={!authenticated}
+          aria-label={
+            authenticated
+              ? saved ? 'Remove bookmark' : 'Add bookmark'
+              : 'Log in to save articles'
+          }
+          title={authenticated ? undefined : 'Log in to save articles'}
         >
           {saved ? '🔖' : '📑'}
         </button>

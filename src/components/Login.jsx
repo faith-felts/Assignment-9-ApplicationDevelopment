@@ -6,7 +6,6 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('regular');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -15,20 +14,11 @@ function Login() {
     e.preventDefault();
     setError('');
 
-    // Basic validation
-    if (!username.trim() || !password.trim()) {
-      setError('Please enter both username and password');
-      return;
-    }
-
-    // Mock authentication - accepts any username/password
-    // In a real app, this would validate against a backend
     try {
-      login(username, password, selectedRole);
-      // Redirect to saved articles after successful login
+      login(username, password);
       navigate('/saved');
-    } catch (err) {
-      setError('Login failed. Please try again.');
+    } catch {
+      setError('Invalid username or password.');
     }
   };
 
@@ -63,18 +53,6 @@ function Login() {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="role">Account Type</label>
-            <select
-              id="role"
-              value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
-            >
-              <option value="regular">Regular User</option>
-              <option value="premium">Premium User</option>
-            </select>
-          </div>
-
           <button type="submit" className="btn btn-primary login-button">
             Login
           </button>
@@ -82,8 +60,8 @@ function Login() {
 
         <div className="demo-accounts">
           <p className="demo-title">Demo Accounts (for testing):</p>
-          <p>Any username/password combination will work</p>
-          <p>Select "Regular" or "Premium" to test different access levels</p>
+          <p>Regular: testuser / 1234</p>
+          <p>Admin: Admin123 / 123</p>
         </div>
       </div>
     </div>

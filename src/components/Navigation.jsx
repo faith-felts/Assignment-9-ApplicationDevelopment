@@ -1,9 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useArticles } from '../context/ArticlesContext';
+import { useAuth } from '../context/AuthContext';
 
 function Navigation() {
   const location = useLocation();
-  const { savedArticles } = useArticles();
+  const { getUserSavedArticles } = useArticles();
+  const { user, logout, isAuthenticated, isAdmin } = useAuth();
+  const authenticated = isAuthenticated();
 
   return (
     <nav>
@@ -23,18 +26,40 @@ function Navigation() {
             >
               Search
             </Link>
-            {/* ⚠️ SECURITY ISSUE: No authentication required to access saved articles */}
-            <Link 
-              to="/saved" 
-              className={`nav-link ${location.pathname === '/saved' ? 'active' : ''}`}
-            >
-              Saved Articles ({savedArticles.length})
-            </Link>
+            {authenticated && (
+              <Link
+                to="/saved"
+                className={`nav-link ${location.pathname === '/saved' ? 'active' : ''}`}
+              >
+                Saved Articles ({getUserSavedArticles().length})
+              </Link>
+            )}
+            {isAdmin() && (
+              <Link
+                to="/admin"
+                className={`nav-link ${location.pathname === '/admin' ? 'active' : ''}`}
+              >
+                Admin
+              </Link>
+            )}
           </div>
         </div>
-        {/* ⚠️ SECURITY ISSUE: No login/logout functionality */}
         <div className="nav-user">
-          No authentication required
+          {authenticated ? (
+            <>
+              <span>{user.username}</span>
+              <button type="button" className="btn" onClick={logout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <Link
+              to="/login"
+              className={`nav-link ${location.pathname === '/login' ? 'active' : ''}`}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>
