@@ -1,10 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 const AuthContext = createContext(null);
-const demoAccounts = {
-  testuser: { password: '1234', role: 'regular' },
-  Admin123: { password: '123', role: 'admin' },
-};
 
 function getStoredUser() {
   const storedUser = localStorage.getItem('newsreader-user');
@@ -21,7 +17,7 @@ function getStoredUser() {
 
   if (
     typeof user?.username !== 'string' ||
-    demoAccounts[user.username]?.role !== user.role
+    (user.role !== 'regular' && user.role !== 'admin')
   ) {
     return null;
   }
@@ -40,14 +36,16 @@ export function AuthProvider({ children }) {
     }
   }, [user]);
 
-  const login = (username, password) => {
+  const login = (username, password, role = 'regular') => {
     const normalizedUsername = username.trim();
-    const account = demoAccounts[normalizedUsername];
-    if (!account || password !== account.password) {
-      throw new Error('Invalid username or password');
+    if (!normalizedUsername || !password.trim()) {
+      throw new Error('Username and password are required');
+    }
+    if (role !== 'regular' && role !== 'admin') {
+      throw new Error('Invalid user role');
     }
 
-    setUser({ username: normalizedUsername, role: account.role });
+    setUser({ username: normalizedUsername, role });
   };
 
   const logout = () => setUser(null);

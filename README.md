@@ -1,15 +1,10 @@
 # NewsReader Starter App
 
-## Demo Login Credentials
+## Demo Login
 
-Use either of these accounts to try the authentication and role-based features:
-
-| Role | Username | Password |
-|---|---|---|
-| Regular user | `testuser` | `1234` |
-| Admin | `Admin123` | `123` |
-
-These are demo credentials for this application, not production accounts.
+Enter any non-empty username and password, then choose Regular User or Admin.
+This is mock authentication for demonstration; it does not verify credentials
+against a backend.
 
 ## Project Structure
 
@@ -44,5 +39,4 @@ news-reader-starter/
 - Search for articles by keyword
 - Bookmark articles (shared by all users - this needs to be fixed!)
 - Responsive design
-
 

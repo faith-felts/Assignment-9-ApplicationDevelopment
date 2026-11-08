@@ -6,6 +6,7 @@ import './Login.css';
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [selectedRole, setSelectedRole] = useState('regular');
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const { login } = useAuth();
@@ -15,10 +16,10 @@ function Login() {
     setError('');
 
     try {
-      login(username, password);
+      login(username, password, selectedRole);
       navigate('/saved');
     } catch {
-      setError('Invalid username or password.');
+      setError('Please enter a username and password.');
     }
   };
 
@@ -39,6 +40,7 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
+              required
             />
           </div>
 
@@ -50,7 +52,20 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              required
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="role">Account Type</label>
+            <select
+              id="role"
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+            >
+              <option value="regular">Regular User</option>
+              <option value="admin">Admin</option>
+            </select>
           </div>
 
           <button type="submit" className="btn btn-primary login-button">
@@ -60,8 +75,8 @@ function Login() {
 
         <div className="demo-accounts">
           <p className="demo-title">Demo Accounts (for testing):</p>
-          <p>Regular: testuser / 1234</p>
-          <p>Admin: Admin123 / 123</p>
+          <p>Any username/password combination will work</p>
+          <p>Select "Regular" or "Admin" to test different access levels</p>
         </div>
       </div>
     </div>
